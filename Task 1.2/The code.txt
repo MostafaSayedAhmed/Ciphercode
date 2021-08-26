@@ -1,0 +1,47 @@
+int led = 8;
+String password ="abc";
+void setup() {
+  pinMode(led,OUTPUT);
+  Serial.begin(9600);
+}
+bool flag = 1;
+void loop() {
+  flag =1;
+  String entryPw ="000";
+  if(Serial.available()){
+  entryPw = Serial.readString();
+    for(int j=0 ; j<3;j++)
+    {
+    if(entryPw[j] >=65 && entryPw[j] <= 90)
+      entryPw[j]+=32;
+    }
+  for(int i=0;i<3;i++)
+  {
+    if(entryPw[i] != password[i])
+    {
+      flag = 0;
+      break;
+    } 
+  }
+  if(flag == 0)
+  {
+    for(int j=0 ; j<5;j++)
+    {
+    digitalWrite(led,HIGH);
+    delay(300);
+    digitalWrite(led,LOW);
+    delay(300);
+    }
+  }
+  else if (flag == 1)
+  {
+    password[0]++;password[1]++;password[2]++;
+    if(password[0]>'z') password[0] ='a';
+    if(password[1]>'z') password[1] ='a';
+    if(password[2]>'z') password[2] ='a';
+    digitalWrite(led,HIGH);
+    delay(3000);
+    digitalWrite(led,LOW);
+  }
+  }
+} 
